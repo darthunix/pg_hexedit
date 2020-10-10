@@ -39,7 +39,6 @@
 #include "catalog/pg_pltemplate.h"
 #endif
 #include "catalog/pg_proc.h"
-#include "catalog/pg_replication_origin.h"
 #include "catalog/pg_shdepend.h"
 #include "catalog/pg_shdescription.h"
 #include "catalog/pg_shseclabel.h"
@@ -227,8 +226,6 @@ GetCatalogNameFromOid(Oid classOid)
 			return "pg_auth_members";
 		case SharedDependRelationId:
 			return "pg_shdepend";
-		case ReplicationOriginRelationId:
-			return "pg_replication_origin";
 		case SharedDescriptionRelationId:
 			return "pg_shdescription";
 		case SharedSecLabelRelationId:
@@ -259,10 +256,6 @@ GetCatalogNameFromOid(Oid classOid)
 			return "pg_toast_2396";
 		case PgShdescriptionToastIndex:
 			return "pg_toast_2396_index";
-		case PgShseclabelToastTable:
-			return "pg_toast_3592";
-		case PgShseclabelToastIndex:
-			return "pg_toast_3592_index";
 		case PgSubscriptionToastTable:
 			return "pg_toast_4183";
 		case PgSubscriptionToastIndex:
@@ -299,10 +292,6 @@ GetCatalogNameFromOid(Oid classOid)
 			return "pg_db_role_setting_databaseid_rol_index";
 		case SharedSecLabelObjectIndexId:
 			return "pg_shseclabel_object_index";
-		case ReplicationOriginIdentIndex:
-			return "pg_replication_origin_roiident_index";
-		case ReplicationOriginNameIndex:
-			return "pg_replication_origin_roname_index";
 		case SubscriptionObjectIndexId:
 			return "pg_subscription_oid_index";
 		case SubscriptionNameIndexId:

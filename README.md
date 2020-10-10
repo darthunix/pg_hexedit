@@ -18,7 +18,7 @@ License: [GNU General Public License version 2](https://opensource.org/licenses/
 ## Overview
 
 pg_hexedit is an experimental toolkit to format PostgreSQL heap, sequence, and
-index files (B-Tree, GiST, GIN, hash, BRIN, and SP-GiST indexes) when opened
+index files (B-Tree, GiST, GIN, hash and SP-GiST indexes) when opened
 within the open source GUI hex editor
 [wxHexEditor](https://github.com/EUA/wxHexEditor).  It makes viewing and
 editing PostgreSQL relation files *significantly* easier.  PostgreSQL versions
@@ -320,6 +320,28 @@ appearing within double quotes.  It's good practice to use single quotes for
 the attrlist argument as a whole.
 
 See `pg_hexedit -h` for full details of all available options.
+
+### Greenplum 6X
+
+As Greenplum is a sharded version of PostgreSQL, so every relation has its own
+relfilenode in every instance. Here is a SQL query to collect all relfilenodes
+for table `t`:
+
+```sql
+select gp_segment_id, pg_relation_filepath(oid) from gp_dist_random('pg_class')
+where oid = 't'::regclass
+
+union
+
+select -1, pg_relation_filepath('t');
+```
+
+To generate tags for wxHexEditor you can use a query similar to `__open_relation`
+script:
+```sql
+select string_agg(attlen || ',\"' || attname || '\",' || attalign, ',' order by attnum)
+from pg_attribute where attrelid = 't'::regclass and attnum > 0;
+```
 
 ### Using pg_hexedit while debugging Postgres with GDB
 
